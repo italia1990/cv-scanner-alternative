@@ -1,0 +1,70 @@
+<script>
+window.onload = () => {
+     const queryString = window.location.search;
+     const urlParams = new URLSearchParams(queryString);
+     const product = urlParams.get('similarityPercentage')
+     let simPercent = document.querySelector(".circle-counter__number");
+     simPercent.textContent = `${product}`;
+     //console.log(simPercent.textContent);
+     //document.querySelector('.circle-progress__value').dataset.value = `${product}`;
+     const ATSBP = urlParams.get('ATSBestPractises');
+     document.querySelector('.ATS').style.width = `${ATSBP}`+'%';
+     const SIM = urlParams.get('salesIndexMatch');
+     document.querySelector('.SIM').style.width = `${SIM}`+'%';
+     const HSM = urlParams.get('hardSkills');
+     document.querySelector('.HSM').style.width = `${HSM}`+'%';
+     const SSM = urlParams.get('softSkills');
+     document.querySelector('.SSM').style.width = `${SSM}`+'%';
+
+     const barTabs = document.getElementsByClassName('jet-progress-bar__status-bar');
+     barTabs[0].style.width = `${ATSBP}`+'%';
+     barTabs[1].style.width = `${SIM}`+'%';
+     barTabs[2].style.width = `${HSM}`+'%';
+     barTabs[3].style.width = `${SSM}`+'%';
+     const ATSTxtTab = document.getElementsByClassName('jet-table__cell-text');
+//ATS Detailed
+     const RFT = urlParams.get('resumeFileType');
+     ATSTxtTab[30].innerHTML = `${RFT}`;
+const EA = urlParams.get('emailAddress');
+const PN = urlParams.get('phoneNumber');
+const LI = urlParams.get('linkedin');
+const JTM = urlParams.get('jobTitleMatch');
+const ER = urlParams.get('educationRequirements');
+const SH = urlParams.get('sectionHeadings');
+const DF = urlParams.get('dateFormat');
+const SC = urlParams.get('specialCharacters');
+ATSTxtTab[30].innerHTML = `${RFT}`;
+ATSTxtTab[31].innerHTML = `${EA}`;
+ATSTxtTab[32].innerHTML = `${PN}`;
+ATSTxtTab[33].innerHTML = `${LI}`;
+ATSTxtTab[34].innerHTML = `${JTM}`;
+ATSTxtTab[35].innerHTML = `${ER}`;
+ATSTxtTab[36].innerHTML = "We Found "+`${SH}`+" on your resume. nice work!";
+ATSTxtTab[37].innerHTML = `${DF}`;
+ATSTxtTab[38].innerHTML = `${SC}`;
+ATSTxtTab[39].innerHTML = `${EA}`;
+//Sales Index Detailed
+const WC = urlParams.get('wordCount');
+const MR = urlParams.get('measurableResults');
+const PV = urlParams.get('measurableResults');
+const CZ = urlParams.get('powerVerbs');
+ATSTxtTab[52].innerHTML = `${WC}`;
+ATSTxtTab[53].innerHTML = `${MR}`;
+ATSTxtTab[54].innerHTML = `${PV}`;
+ATSTxtTab[55].innerHTML = `${CZ}`;
+//Hard Skills Detailed
+
+
+}
+const ATSTxtTab = document.getElementsByClassName('jet-table__cell-text');
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const WC = urlParams.get('wordCount');
+const MR = urlParams.get('measurableResults');
+const PV = urlParams.get('powerVerbs');
+const CZ = urlParams.get('clichesBuzzwords');
+ATSTxtTab[52].innerHTML = `${WC}`;
+ATSTxtTab[53].innerHTML = `${MR}`;
+ATSTxtTab[54].innerHTML = `${PV}`;
+ATSTxtTab[55].innerHTML = `${CZ}`;
+</script>

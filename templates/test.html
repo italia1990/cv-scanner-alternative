@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    console.log("Javscript Running")
+    function run() {
+
+        // Creating Our XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+        var fData = new FormData();
+        fData.append("user_id",document.getElementById("user_id").value);
+        fData.append("job_title",document.getElementById("job_title").value);
+        fData.append("industry_title",document.getElementById("industry_title").value);
+        fData.append("cv",document.getElementById("cv").value);
+        fData.append("jd",document.getElementById("jd").value);
+<!--        for (var pair of fData.entries()) {-->
+<!--            console.log(pair[0]+ ', ' + pair[1]);-->
+<!--          }-->
+        // Making our connection
+        var url = 'http://localhost:5000/resume/scan';
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader('Content-type', 'multipart/form-data');
+
+        // function execute after request is successful
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+            }
+        }
+        // Sending our request
+        xhr.send(fData);
+    }
+
+</script>
+</head>
+<body>
+
+<h1>Show File-select Fields</h1>
+
+<h3>Show a file-select field which allows only one file to be chosen:</h3>
+<form action="{{url_for('index')}}" target="_blank" method="get" enctype="multipart/form-data" onsubmit="run();">
+  <label for="user_id">Select a file:</label>
+  <input type="text" id="user_id" name="user_id" placeholder="User_id"><br><br>
+  <label for="job_title">Select a file:</label>
+  <input type="text" id="job_title" name="job_title" placeholder="Enter Job Title"><br><br>
+  <label for="industry_title">Select a file:</label>
+  <input type="text" id="industry_title" name="industry_title" placeholder="Enter Industry"><br><br>
+  <label for="jd">Select a file:</label>
+  <input type="file" id="jd" name="jd"><br><br>
+  <label for="cv">Select a file:</label>
+  <input type="file" id="cv" name="cv"><br><br>
+  <input type="submit">
+</form>
+
+
+</body>
+
+
+</html>

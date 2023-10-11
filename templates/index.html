@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    console.log("Javscript Running")
+    var fData = new FormData();
+    async function run() {
+
+        // Creating Our XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+        fData.append("user_id",document.getElementById("user_id").value);
+        fData.append("job_title",document.getElementById("job_title").value);
+        fData.append("industry_title",document.getElementById("industry_title").value);
+        fData.append("cv",document.getElementById("cv").files[0]);
+        fData.append("jd",document.getElementById("jd").files[0]);
+        for (var pair of fData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]);
+          }
+        // Making our connection
+        var url = 'http://localhost:5000/resume/scan';
+        console.log('url ===>', url);
+        xhr.open("POST", url, true);
+        // xhr.setRequestHeader('Content-type', 'multipart/form-data');
+        // xhr.setRequestHeader('Access-Control-Request-Headers', '*');
+
+        const res = await fetch(url, {
+          method: 'POST',
+          body: fData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        });
+        console.log('fetch ===>', res);
+
+
+        // function execute after request is successful
+        xhr.onload = function() {
+                   const xmlDoc = this.responseXML;
+                   document.getElementById("demo2").innerHTML =
+                   this.responseText;
+                   var json = JSON.parse(this.responseText);
+                   //Initial Summary
+                   var similarityPercentage = json.results.similarity_check.similarity_percentage;
+                   var ATSBestPractises = json.results.similarity_check.best_practices;
+                   var salesIndexMatch = json.results.similarity_check.sales_index;
+                   var hardSkills = json.results.similarity_check.hard_skills;
+                   var softSkills = json.results.similarity_check.soft_skills;
+                 //Detailed Results
+                   //ATS Best Practise
+                   var resumeFileType = json.results.best_practices.file_type;
+                   var emailAddress = json.results.best_practices.email;
+                   var phoneNumber = json.results.best_practices.phone;
+                   var linkedin = json.results.best_practices.linkedin;
+                   var jobTitleMatch = json.results.best_practices.job_title_match;
+                   var educationRequirements = json.results.best_practices.education;
+                   var sectionHeadings = json.results.best_practices.section_headings;
+                   var dateFormat = json.results.best_practices.date_format;
+                   var specialCharacters = json.results.best_practices.organisation;
+                   //Hard Skills
+                   var notPresentSkillsHard = json.results.hard_skills.not_present_skills;
+                   var presentSkillsHard = json.results.hard_skills.present_skills;
+                   var skillGapHard = json.results.hard_skills.skills_gap;
+                   //Soft Skills
+                   var notPresentSkillsSoft = json.results.soft_skills.not_present_skills;
+                   var presentSkillsSoft = json.results.soft_skills.present_skills;
+                   var skillGapSoft = json.results.soft_skills.skills_gap;
+                   //Sales Index Match
+                   var wordCount = json.results.sales_index.words_count;
+                   var measurableResults = json.results.sales_index.measureable_results;
+                   var powerVerbs = json.results.sales_index.power_verbs;
+                   var clichesBuzzwords = json.results.sales_index.cliches_buzzwords;
+                   console.log(similarityPercentage);
+                   console.log(xmlDoc.getElementsByTagName("results"));
+
+                   let txt = "";
+                  for (let i = 0; i < x.length; i++) {
+                      txt = txt + x[i].childNodes[0].nodeValue + "<br>";
+                  }
+                      document.getElementById("demo").innerHTML = txt;
+          }
+        xhr.onreadystatechange = function () {
+            const xmlDoc = this.responseXML;
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                console.log(xmlDoc.getElementsByTagName("Result"))
+            }
+        }
+        // Sending our request
+        xhr.send(fData);
+    }
+    function file(file)
+    {
+      var input = document.getElementById(file);
+      var fReader = new FileReader();
+      fReader.readAsDataURL(input.files[0]);
+      fReader.onloadend = function(event){
+          var img = document.getElementById("yourImgTag");
+          img.src = event.target.result;
+      }
+    }
+
+</script>
+</head>
+<body>
+
+<h1>Show File-select Fields</h1>
+
+<h3>Show a file-select field which allows only one file to be chosen:</h3>
+<form action="{{url_for('scan_resume')}}" enctype="multipart/form-data" onsubmit="run();">
+  <label for="user_id">Add user id: </label>
+  <input type="text" id="user_id" name="user_id" placeholder="User_id"><br><br>
+  <label for="job_title">Job title: </label>
+  <input type="text" id="job_title" name="job_title" placeholder="Enter Job Title"><br><br>
+  <label for="industry_title">Industry title: </label>
+  <input type="text" id="industry_title" name="industry_title" placeholder="Enter Industry"><br><br>
+  <label for="jd">Job description file: </label>
+  <input type="file" id="jd" name="jd" onchange=""><br><br>
+  <label for="cv">CV file: </label>
+  <input type="file" id="cv" name="cv"><br><br>
+  <input type="submit">
+</form>
+
+<div id="demo2"></div>
+
+</body>
+
+
+</html>

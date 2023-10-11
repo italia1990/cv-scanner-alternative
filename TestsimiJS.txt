@@ -1,0 +1,68 @@
+DO NOT REMOVE AT ALL !!<script>
+console.log("Javscript Running");
+jQuery( document ).ready(function( $ ){
+	jQuery( document ).on('submit_success', function(){
+               console.log("Javscript Running");
+	       var xhr = new XMLHttpRequest();
+               var fData = new FormData();
+               fData.append("user_id","2827127");   
+               fData.append("job_title",document.getElementById("form-field-job_title").value);
+               fData.append("industry_title",document.getElementById("form-field-industry_title").value);
+               fData.append("cv",document.getElementById("form-field-cv").files[0]);
+               fData.append("jd",document.getElementById("form-field-jd").files[0]);
+               for (var pair of fData.entries()) {
+                   console.log(pair[0]+ ', ' + pair[1]);
+            }
+        // Making our connection
+               var url = 'http://localhost:5000/resume/scan';
+               xhr.open("POST", url, true);
+            //xhr.setRequestHeader('Content-type', 'multipart/form-data');
+           //xhr.setRequestHeader('Access-Control-Request-Headers', 'Content-type');
+
+
+        // function execute after request is successful
+               xhr.onreadystatechange = function () {
+               if (this.readyState == 4 && this.status == 200) {
+                   var json = JSON.parse(this.responseText);
+                   //Initial Summary
+                   var similarityPercentage = json.results.similarity_check.similarity_percentage;
+                   var ATSBestPractises = json.results.similarity_check.best_practices;
+                   var salesIndexMatch = json.results.similarity_check.sales_index;
+                   var hardSkills = json.results.similarity_check.hard_skills;
+                   var softSkills = json.results.similarity_check.soft_skills;
+                 //Detailed Results
+                   //ATS Best Practise
+                   var resumeFileType = json.results.best_practices.file_type;
+                   var emailAddress = json.results.best_practices.email;
+                   var phoneNumber = json.results.best_practices.phone;
+                   var linkedin = json.results.best_practices.linkedin;
+                   var jobTitleMatch = json.results.best_practices.job_title_match;
+                   var educationRequirements = json.results.best_practices.education;
+                   var sectionHeadings = json.results.best_practices.section_headings.present;
+                   var dateFormat = json.results.best_practices.date_format;
+                   var specialCharacters = json.results.best_practices.organisation;
+                   //Hard Skills
+                   var notPresentSkillsHard = json.results.hard_skills.not_present_skills;
+                   var presentSkillsHard = json.results.hard_skills.present_skills;
+                   var skillGapHard = 
+JSON.stringify(json.results.hard_skills.skills_gap);
+                   console.log(skillGapHard)
+                   //Soft Skills
+                   var notPresentSkillsSoft = json.results.soft_skills.not_present_skills;
+                   var presentSkillsSoft = json.results.soft_skills.present_skills;
+                   var skillGapSoft = json.results.soft_skills.skills_gap;
+                   //Sales Index Match
+                   var wordCount = json.results.sales_index.words_count;
+                   var measurableResults = json.results.sales_index.measureable_results;
+                   var powerVerbs = json.results.sales_index.power_verbs;
+                   var clichesBuzzwords = json.results.sales_index.cliches_buzzwords;
+                   location.replace("https://cvjury.com/similarity/?similarityPercentage="+similarityPercentage+"&ATSBestPractises="+ATSBestPractises+"&salesIndexMatch="+salesIndexMatch+"&hardSkills="+hardSkills+"&softSkills="+softSkills+"&resumeFileType="+resumeFileType+"&emailAddress="+emailAddress+"&phoneNumber="+phoneNumber+"&linkedin="+linkedin+"&jobTitleMatch="+jobTitleMatch+"&educationRequirements="+educationRequirements+"&sectionHeadings="+sectionHeadings+"&dateFormat="+dateFormat+"&specialCharacters="+specialCharacters+"&notPresentSkillsHard="+notPresentSkillsHard+"&presentSkillsHard="+presentSkillsHard+"&skillGapHard="+skillGapHard+"&notPresentSkillsSoft="+notPresentSkillsSoft+"&presentSkillsSoft="+presentSkillsSoft+"&skillGapSoft="+skillGapSoft+"&wordCount="+wordCount+"&measurableResults="+measurableResults+"&powerVerbs="+powerVerbs+"&clichesBuzzwords="+clichesBuzzwords);
+                }
+}
+        // Sending our request
+              xhr.send(fData);
+	});
+});
+    
+
+</script>
