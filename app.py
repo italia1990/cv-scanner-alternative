@@ -79,7 +79,10 @@ def scan_resume():
             return {"success": False, "msg": "Required file(s)(jd) missing, try again."}, 400
 
         # Get the file extension
-        extension = data['cv'].split("@:@")[-1]
+        if "@:@" not in data['cv']:
+            extension = 'txt'
+        else :
+            extension = data['cv'].split("@:@")[-1]
 
         # Create a BytesIO object to mimic a file-like object
         file_like_cv = io.BytesIO(data['cv'].encode())
@@ -106,7 +109,7 @@ def scan_resume():
         print('starting scan')
         resume_scanner_results = ResumeScanner(
             resume_file=cv, resume_extension = extension, jd_file=jd, domain=data['job_title'], industry=data['industry_title'],
-            affinda_token='aff_4829fad5e27dca71515bccb56f8e16a96c1cf482', temp_folder=app.config['TEMP_FOLDER']).start_scan()
+            affinda_token='aff_38f17ddf6ef7bde1564b3c881af7067c164948ce', temp_folder=app.config['TEMP_FOLDER']).start_scan()
 
         if not resume_scanner_results["success"]:
             return jsonify({"success": False, "msg": resume_scanner_results['msg']}), 400
