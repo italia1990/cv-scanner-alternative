@@ -1033,7 +1033,7 @@ class ResumeScanner():
         self.resume_scores['issues']['hard_skills'] = len(hard_skills_gap)
         self.resume_scores['issues']['soft_skills'] = len(soft_skills_gap)
 
-                self.resume_scores['hard_skills']["skills_gap"] = hard_skills_gap
+        self.resume_scores['hard_skills']["skills_gap"] = hard_skills_gap
         self.resume_scores['soft_skills']["skills_gap"] = soft_skills_gap
 
         print('scores after the gaps are calcualted (hard and soft): ',
