@@ -206,7 +206,7 @@ class ResumeScanner():
         # self.resume_scores['hard_skills']["skills_match"] = self.totalPercentageH
         
         """ If there is anything not presented skills, then not presented skills became the issues to fix """
-        self.resume_scores['issues']['hard_skills'] = len(hardS[3])
+        #self.resume_scores['issues']['hard_skills'] = len(hardS[3])
 
     def soft_skills_match(self, softSkillJobD, softSkillRes):
         try:
@@ -236,7 +236,7 @@ class ResumeScanner():
             # self.resume_scores['soft_skills']["skills_match"] = self.totalPercentageS
 
             """ If there is anything not presented skills, then not presented skills became the issues to fix """
-            self.resume_scores['issues']['soft_skills'] = len(softS[3])
+            #self.resume_scores['issues']['soft_skills'] = len(softS[3])
 
             # start = time.time()
 
@@ -1030,7 +1030,10 @@ class ResumeScanner():
         cv_skills_count_dict = self.count_skills_in_text(self.resume.lower(), soft_skills_cv)
         soft_skills_gap = self.count_skills_differences(jd_skills_count_dict, cv_skills_count_dict)
 
-        self.resume_scores['hard_skills']["skills_gap"] = hard_skills_gap
+        self.resume_scores['issues']['hard_skills'] = len(hard_skills_gap)
+        self.resume_scores['issues']['soft_skills'] = len(soft_skills_gap)
+
+                self.resume_scores['hard_skills']["skills_gap"] = hard_skills_gap
         self.resume_scores['soft_skills']["skills_gap"] = soft_skills_gap
 
         print('scores after the gaps are calcualted (hard and soft): ',
