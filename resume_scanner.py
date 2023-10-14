@@ -860,7 +860,7 @@ class ResumeScanner():
         matchNo = re.findall(
             '([+]\d{2}[-\.\s]??\d{3}[ ]??[-\.\s]??[ ]??\d{3}[-\.\s]??[ ]??\d{4}|[+]\d{1}[-\.\s]??\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|[-\.\s]??[(]??\d{3}[)]??[-\.\s]??\d{3}[-\.\s]??\d{4}|[+]\d{2}[-\.\s]??\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}|\d{3}[-\.\s]??\d{4}|[+] \d{1} [-] \d{1} \d{1} \d{1} [-] \d{1} \d{1} \d{1} [-] \d{1} \d{1} \d{1} \d{1})',
             line)
-        if matchNo != [] or matchNo != " ":
+        if (matchNo != [] or matchNo != " ") and len(matchNo[0:2]) != 0:
             self.ATSp += 2.5
             self.resume_scores['best_practices'][
                 'phone'] = f"Your Phone Number '{matchNo[0:2]}' is on your resume, good job!"
