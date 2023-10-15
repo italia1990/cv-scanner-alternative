@@ -865,7 +865,7 @@ class ResumeScanner():
             self.resume_scores['best_practices'][
                 'phone'] = f"Your Phone Number '{matchNo[0:2]}' is on your resume, good job!"
         else:
-            self.resume_scores['best_practices']['phone'] = ""
+            self.resume_scores['best_practices']['phone'] = "There is no Phone Number in your resume"
 
             self.resume_scores['issues']['best_practices'].append("phone")
 
