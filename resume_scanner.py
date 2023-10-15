@@ -93,7 +93,7 @@ class ResumeScanner():
             file_str = file_str.replace(u'\xa0', u' ')  # proccess the file and replace unwanted chrs
             return file_str
         except Exception as e:
-            print('failed to read the resume file', e)
+            #print('failed to read the resume file', e)
             self.init_error = {'success': False, 'msg': f'failed to read the {file_type} file'}
 
     # files conversions
@@ -128,7 +128,7 @@ class ResumeScanner():
                 return file.read().decode('utf-8')
 
         except Exception as e:
-            print('error happened during fileConv', e)
+            #print('error happened during fileConv', e)
             return False
 
     '''
@@ -169,7 +169,7 @@ class ResumeScanner():
             self.similarity_check_accumlation()
 
         except Exception as e:
-            print('error happened during scan: ', e)
+            #print('error happened during scan: ', e)
             return {'success': False, 'msg': 'error happened during resume scan, please try again.'}
 
         # print(json.dumps(self.resume_scores, indent=4))
@@ -435,7 +435,7 @@ class ResumeScanner():
                 resume = client.create_resume(file=f)
             os.remove(file_temp_path)
 
-            print('The Affinda returned resume is', resume.as_dict())
+            #print('The Affinda returned resume is', resume.as_dict())
 
             resResult = resume.as_dict()
             for i in resResult:
@@ -456,7 +456,7 @@ class ResumeScanner():
             return softSkill, hardSkill
         except Exception as e:
 
-            print('something happened during affinda', e)
+            #print('something happened during affinda', e)
             return False, False
 
     # Web scrape google
@@ -525,7 +525,7 @@ class ResumeScanner():
     #         print('cookie button not found')  # do nothing
     #
     #     try:
-    #         print('The job domain is: ', domain)
+    #         #print('The job domain is: ', domain)
     #         search_box = driver.find_element_by_xpath(
     #             "/html/body/div[1]/div[3]/form/div[1]/div[1]/div[1]/div/div[2]/input")
     #         search_box.send_keys(
@@ -540,14 +540,14 @@ class ResumeScanner():
     #     try:
     #         skills = driver.find_element_by_xpath("//*[@class='RqBzHd']/ul")
     #         if skills is None:
-    #             print('first search scrapping failed')
+    #             #print('first search scrapping failed')
     #             skills = driver.find_element_by_xpath(
     #                 '//*[@id="rso"]/div[1]/div/div[1]/div/div[1]/div/div/div/div/div[1]/div/div[2]/ul')
     #
     #         skills = skills.text  # if also none an exception will be thrown
     #
     #     except Exception as e:
-    #         print('scrapping attempt failed ', str(e))
+    #         #print('scrapping attempt failed ', str(e))
     #         # stop and return none, the rest of the workflow can continue working.
     #         return None
     #
@@ -1030,14 +1030,24 @@ class ResumeScanner():
         cv_skills_count_dict = self.count_skills_in_text(self.resume.lower(), soft_skills_cv)
         soft_skills_gap = self.count_skills_differences(jd_skills_count_dict, cv_skills_count_dict)
 
-        self.resume_scores['issues']['hard_skills'] = len(hard_skills_gap)
-        self.resume_scores['issues']['soft_skills'] = len(soft_skills_gap)
+        """ Calc gap"""
+        issue_hard_skills_gap_num = 0 
+        for skill_gap in hard_skills_gap:
+            if skill_gap[3] < 0:
+                issue_hard_skills_gap_num += 1 
+
+        issue_soft_skills_gap_num = 0 
+        for skill_gap in soft_skills_gap:
+            if skill_gap[3] < 0:
+                issue_soft_skills_gap_num += 1 
+        """"""
+        self.resume_scores['issues']['hard_skills'] = issue_hard_skills_gap_num
+        self.resume_scores['issues']['soft_skills'] = issue_soft_skills_gap_num
 
         self.resume_scores['hard_skills']["skills_gap"] = hard_skills_gap
         self.resume_scores['soft_skills']["skills_gap"] = soft_skills_gap
 
-        print('scores after the gaps are calcualted (hard and soft): ',
-              (self.resume_scores['hard_skills']["skills_gap"], self.resume_scores['soft_skills']["skills_gap"]))
+        #print('scores after the gaps are calcualted (hard and soft): ', (self.resume_scores['hard_skills']["skills_gap"], self.resume_scores['soft_skills']["skills_gap"]))
 
     def count_skills_in_text(self, targetFileString, skills):
 
@@ -1052,7 +1062,7 @@ class ResumeScanner():
             if jobSkillCounter > 0:
                 skills_gap[skill_name] = jobSkillCounter
 
-        print('skills gap: ', skills_gap)
+        #print('skills gap: ', skills_gap)
 
         return skills_gap
 
