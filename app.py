@@ -109,7 +109,7 @@ def scan_resume():
         print('starting scan')
         resume_scanner_results = ResumeScanner(
             resume_file=cv, resume_extension = extension, jd_file=jd, domain=data['job_title'], industry=data['industry_title'],
-            affinda_token='aff_c4db34c8d585992ad719f4255ed7af70f925c497', temp_folder=app.config['TEMP_FOLDER']).start_scan()
+            affinda_token='aff_d6aaeffd50992e966275b40b4b3a8ef3eb93acf5', temp_folder=app.config['TEMP_FOLDER']).start_scan()
 
         if not resume_scanner_results["success"]:
             return jsonify({"success": False, "msg": resume_scanner_results['msg']}), 400
